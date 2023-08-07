@@ -1,0 +1,7 @@
+@font-face {
+   font-family: 'Namu 1850';
+   src: local('Namu 1850'), local('Namu-1850'),
+   url('./namu-1850.ttf');
+   font-weight: normal;
+   font-style: normal;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8" />
+   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Vite App</title>
+   <link rel="stylesheet" href="./scss/style.scss">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;800&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="./font/Namu-1850/stylesheet.css">
+   <script>
+      localStorage.clear();
+   </script>
+</head>
+
+<body>
+   <div class="wrapper">
+      <main class="main-admin">
+         <section class="lessons">
+            <div class="lessons__effect">
+               <div class="lessons__header less-add container">
+                  <form name="add-lesson" class="lessons__form">
+                     <div class="less-add__box">
+                        <div class="less-add__top-box">
+                           <div class="blue-edit edit">
+                              <span class="black-pencil" id="title-dblclick"></span>
+                              <span class="blue-pencil" id="title-blue-edit" data-progres="true"></span>
+                           </div>
+                           <p>Для выделения активным цветом выберите <br> текст и нажмите на синий карандашик</p>
+                        </div>
+                        <h1 class="less-add__title text-content" data-create_lesson="true">название симулятора</h1>
+                     </div>
+                     <span class="add less-add__plus"></span>
+                     <div class="less-add__right">
+                        <label for="image_uploads" class="less-add__back-img">Добавить фон</label>
+                        <input style="opacity: 0; display: none;" type="file" id="image_uploads" name="image_uploads"
+                           accept=".jpg, .jpeg, .png">
+                        <div class="img-box">
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+            <div class="lessons__container container">
+            </div>
+         </section>
+      </main>
+   </div>
+   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+   <script src="/modules/upload.js" type="module"></script>
+   <script type="module" src="/main.js"></script>
+</body>
+
+</html>

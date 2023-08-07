@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8" />
+   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <script>console.log();
+   </script>
+   <title>Vite App</title>
+   <link rel="stylesheet" href="../../scss/style.scss">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;800&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="../../font/Namu-1850/stylesheet.css">
+</head>
+
+<body>
+   <div class="wrapper">
+      <header class="header-edit">
+         <div class="header-edit__container less-add container">
+            <div class="header-edit__left hd-left">
+               <div class="hd-left__top-box  less-add__top-box">
+                  <div class="blue-edit edit" data-edit_type_link="name">
+                     <span class="black-pencil" id="title-dblclick"></span>
+                     <span class="blue-pencil" id="title-blue-edit" data-progres="true"></span>
+                  </div>
+                  <p>Для выделения активным цветом выберите <br> текст и нажмите на синий карандашик</p>
+               </div>
+               <h1 class="hd-left__title less-add__title" data-edit_type_or="name">название симулятора</h1>
+               <div class="hd-left__text-box">
+                  <p data-edit_type_or="description">Lorem, ipsum dolor.
+                  </p>
+                  <div class="black-edit edit" data-edit_type_link="description">
+                     <span class="black-pencil"></span>
+                     <span class="trash"></span>
+                  </div>
+               </div>
+               <div class="hd-left__btn-box">
+                  <button class="hd-left__btn btn first-btn" data-edit_type_or="btn_1">Начать бесплатно</button>
+                  <div class="black-edit edit" data-edit_type_link="btn_1">
+                     <span class="black-pencil"></span>
+                     <span class="trash"></span>
+                  </div>
+               </div>
+               <div class="hd-left__btn-box">
+                  <button class="hd-left__btn btn --back --border" data-edit_type_or="btn_2">приобрести
+                     симуляцию</button>
+                  <div class="black-edit edit" data-edit_type_link="btn_2">
+                     <span class="black-pencil"></span>
+                     <span class="trash"></span>
+                  </div>
+               </div>
+            </div>
+            <div class="header-edit__right hd-right">
+               <span class="add hd-right__add" data-add_img>
+                  <p>Добавить фон</p>
+               </span>
+               <img src="" alt="" data-edit_type_or="img" style="width: 100%;height: 100%; object-fit: contain;">
+               <div class="black-edit edit hd-right__edit" data-edit_type_link="img">
+                  <span class="black-pencil"></span>
+                  <span class="trash"></span>
+               </div>
+            </div>
+         </div>
+         <marquee class="hd-line marquee" hspace="30px" scrolldelay="30" truespeed>
+            <p data-variat="price">стоимость <span></span></p>
+            <p data-variat="practical">практические задачи<span></span></p>
+            <p data-variat="cases">кейсы<span></span></p>
+            <p data-variat="portfolio">работы в портфолио<span></span></p>
+            <p data-variat="topic">раскрытие темы<span></span></p>
+            <p data-variat="certificate">Сертификат<span></span></p>
+         </marquee>
+      </header>
+      <input type="file" id="add_img_input" accept=".jpg, .jpeg, .png" style="opacity: 0;display: none;">
+      <main class="main">
+         <section class="inputs">
+            <div class="inputs__container container">
+               <div class="inputs__item">
+                  <p class="inputs__text">Практические задачи в шт</p>
+                  <div type="number" data-edit_type="options.practical" class="inputs__output">500</div>
+               </div>
+               <div class="inputs__item">
+                  <p class="inputs__text">Работы в портфолио</p>
+                  <div type="bulean" data-edit_type="options.portfolio" data-status_active="true"
+                     class="inputs__output">Да</div>
+               </div>
+               <div class="inputs__item">
+                  <p class="inputs__text">Сертификат</p>
+                  <div type="bulean" data-edit_type="options.certificate" data-status_active="true"
+                     class="inputs__output">Да
+                  </div>
+               </div>
+               <div class="inputs__item">
+                  <p class="inputs__text">Кейсы</p>
+                  <div type="bulean" data-edit_type="options.cases" data-status_active="true" class="inputs__output">Да
+                  </div>
+               </div>
+               <div class="inputs__item">
+                  <p class="inputs__text">Раскрытие темы</p>
+                  <div type="trind_bulean" data-edit_type="options.topic" data-status="full" class="inputs__output">
+                     Полное</div>
+               </div>
+               <div class="inputs__item">
+                  <p class="inputs__text">Стоимость в ₽</p>
+                  <div type="price" data-edit_type="options.price" data-price class="inputs__output">18 500 ₽</div>
+               </div>
+            </div>
+         </section>
+         <section class="detals">
+            <div class="detals__container container">
+               <div class="detals__item" data-count='one'>
+                  <img class="detals__img" src="/images/detals.png" alt="">
+                  <p class="detals__text" data-edit_type="detals.one">100 вопросов</p>
+                  <div class="blac-edit edit detals__edit">
+                     <span class="black-pencil"></span>
+                     <span class="trash"></span>
+                  </div>
+               </div>
+               <div class="detals__item" data-count='two'>
+                  <img class="detals__img" src="/images/practic-job.png" alt="">
+                  <p class="detals__text" data-edit_type="detals.two">50 практических кейсов</p>
+                  <div class="blac-edit edit detals__edit">
+                     <span class="black-pencil"></span>
+                     <span class="trash"></span>
+                  </div>
+               </div>
+               <div class="detals__item" data-count='tre'>
+                  <img class="detals__img" src="/images/user-keys.png" alt="">
+                  <p class="detals__text" data-edit_type="detals.tre">5 экзаменов — итоговых работ</p>
+                  <div class="blac-edit edit detals__edit">
+                     <span class="black-pencil"></span>
+                     <span class="trash"></span>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <section class="options">
+            <div class="options__container container">
+               <div class="options__menu">
+                  <div data-type="modules" class="options__menu-item options__menu-item--active">
+                     Модули
+                  </div>
+                  <div data-type="value" class="options__menu-item">
+                     Ценность
+                  </div>
+                  <div data-type="skills" class="options__menu-item">
+                     Скиллы
+                  </div>
+                  <div data-type="before-after" class="options__menu-item">
+                     До/после
+                  </div>
+                  <div data-type="description" class="options__menu-item">
+                     Описание
+                  </div>
+               </div>
+               <div class="options__wrapper">
+                  <div data-options_menu="modules" class="options__modules modules options__active">
+                     <div class="modules__item">
+                        <div class="modules__top">
+                           <h2 class="modules__title"><span>1</span>. определение и анализ рынка</h2>
+                           <div class="modules__price-box">
+                              <p class="modules__price">5 400 ₽</p>
+                              <p class="modules__static-price">7 500 ₽</p>
+                              <p class="modules__sale">-25%</p>
+                           </div>
+                        </div>
+                        <div class="modules__down">
+                           <div class="modules__edit black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                           <img class="modules__arrows" draggable="false" src="/images/arrow-bottom-black.svg">
+                        </div>
+                     </div><!-- /item -->
+                     <div class="modules__item">
+                        <div class="modules__top">
+                           <h2 class="modules__title"><span>2</span>. Разработка продукта и его продвижение на рынке
+                           </h2>
+                           <div class="modules__price-box">
+                              <p class="modules__price">5 400 ₽</p>
+                              <p class="modules__static-price">7 500 ₽</p>
+                              <p class="modules__sale">-25%</p>
+                           </div>
+                        </div>
+                        <div class="modules__down">
+                           <div class="modules__edit black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                           <img class="modules__arrows" draggable="false" src="/images/arrow-bottom-black.svg">
+                        </div>
+                     </div><!-- /item -->
+                     <div class="modules__item">
+                        <div class="modules__top">
+                           <h2 class="modules__title"><span>3</span>. Практическое применение знаний
+                           </h2>
+                           <div class="modules__price-box">
+                              <p class="modules__price">5 400 ₽</p>
+                              <p class="modules__static-price">7 500 ₽</p>
+                              <p class="modules__sale">-25%</p>
+                           </div>
+                        </div>
+                        <div class="modules__down">
+                           <div class="modules__edit black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                           <img class="modules__arrows" draggable="false" src="/images/arrow-bottom-black.svg">
+                        </div>
+                     </div><!-- /item -->
+                  </div><!-- /modules -->
+                  <div data-options_menu="value" class="options__value value">
+                     <div class="value__top-box">
+                        <div class="value__item" data-num_value="values.first">
+                           <p>Ценность текст Ценность текст Ценность текст Ценность текст Ценность текст Ценность текст
+                           </p>
+                           <div class="black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                        </div><!-- /item -->
+                        <div class="value__item" data-num_value="values.secon">
+                           <p>Ценность текст Ценность текст Ценность текст Ценность текст Ценность текст Ценность текст
+                           </p>
+                           <div class="black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                        </div><!-- /item -->
+                        <div class="value__item" data-num_value="values.thind">
+                           <p>Ценность текст Ценность текст Ценность текст Ценность текст Ценность текст Ценность текст
+                           </p>
+                           <div class="black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                        </div><!-- /item -->
+                     </div><!-- /top -->
+                     <img src="" alt="" class="value__img">
+                     <span class="add hd-right__add value__add-img">
+                        <p>Добавить фон</p>
+                     </span>
+                     <div class="value__bottom-box">
+                        <div class="value__item" data-num_value="values.fourt">
+                           <p>Ценность текст Ценность текст Ценность текст Ценность текст Ценность текст Ценность текст
+                           </p>
+                           <div class="black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                        </div><!-- /item -->
+                        <div class="value__item" data-num_value="values.fifth">
+                           <p>Ценность текст Ценность текст Ценность текст Ценность текст Ценность текст Ценность текст
+                           </p>
+                           <div class="black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                        </div><!-- /item -->
+                     </div>
+                  </div><!-- /value -->
+                  <div data-options_menu="skills" class="options__skills skills">
+                     <div class="skills__content">
+                        <div class="skills__item" data-num_skill="skills.first">
+                           <div class="black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                           <p>Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы </p>
+                        </div>
+                        <div class="skills__item" data-num_skill="skills.secon">
+                           <div class="black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                           <p>Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы </p>
+                        </div>
+                        <div class="skills__item" data-num_skill="skills.thind">
+                           <div class="black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                           <p>Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы </p>
+                        </div>
+                        <div class="skills__item" data-num_skill="skills.fourt">
+                           <div class="black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                           <p>Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы </p>
+                        </div>
+                        <div class="skills__item" data-num_skill="skills.fifth">
+                           <div class="black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                           <p>Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы </p>
+                        </div>
+                        <div class="skills__item" data-num_skill="skills.sixth">
+                           <div class="black-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                           <p>Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы Скиллы </p>
+                        </div>
+                     </div>
+                  </div><!-- /skills -->
+                  <div data-options_menu="before-after" class="options__bf-af before-after">
+                     <div class="before-after__container">
+                        <div class="before">
+                           <img src="/images/Ellipse-before.png" draggable="false" alt="" class="before__img">
+                           <h2 class="before__title" data-before="before.title"><span>До</span> симулятора</h2>
+                           <div class="edit before-after__edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                           <div class="before-after__header header">
+                              <div class="header__box">
+                                 <div class="header__edit-befor edit">
+                                    <span class="black-pencil"></span>
+                                    <span class="pink-pencil" data-progres="true"></span>
+                                 </div>
+                                 <p>
+                                    Для выделения активным цветом выберите <br> текст и нажмите на розовый карандашик
+                                 </p>
+                              </div>
+                              <h2 class="header__title  header__title-before" data-before="before.name">
+                                 нет достаточных знаний о продуктовом менеджменте и способах
+                                 анализа рынка
+                              </h2>
+                           </div>
+                           <img src="/images/Arrow-pink.svg" alt="" draggable="false" class="before__arrow-img">
+                           <div class=" uls-edit edit">
+                              <span class="black-pencil"></span>
+                              <span class="pink-pencil" data-progres="true"></span>
+                           </div>
+                           <ul class="before__ul">
+                              <li> <input type="checkbox">
+                                 <p data-name="before.uls.one">
+                                    Студенты <span>не имели достаточных знаний</span> о
+                                    продуктовом менеджменте и анализе
+                                    рынка
+                                 </p>
+                              </li>
+                              <li>
+                                 <input type="checkbox">
+                                 <p data-name="before.uls.two"><span>Не было практических занятий</span>, которые
+                                    могли бы помочь студентам научиться
+                                    разрабатывать
+                                    продукт и продвигать его на рынке
+                                 </p>
+                              </li>
+
+                              <li> <input type="checkbox">
+                                 <p data-name="before.uls.tre">
+                                    <span>Не было возможности практически
+                                       применять</span> полученные знания и навыки
+                                 </p>
+                              </li>
+
+                              <li><input type="checkbox">
+                                 <p data-name="before.uls.fou">
+                                    Не было возможности научиться проводить
+                                    <span>SWOT-анализ</span> и анализ рисков
+                                 </p>
+                              </li>
+
+                              <li>
+                                 <input type="checkbox">
+                                 <p data-name="before.uls.fae">
+                                    Не было возможности научиться проводить
+                                    <span>исследования</span> пользователей,
+                                    опросы и интервью
+                                 </p>
+                              </li>
+
+                              <li> <input type="checkbox">
+                                 <p data-name="before.uls.six">
+                                    <span>Не было достаточной информации</span> о
+                                    конкурентах на рынке и способах
+                                    конкуренции
+                                 </p>
+                              </li>
+
+                              <li> <input type="checkbox">
+                                 <p data-name="before.uls.sev">
+                                    <span>Не было знаний</span> об оценке и
+                                    <span>анализе целевой аудитории</span> и
+                                    сегментации рынка
+                                 </p>
+                              </li>
+
+                              <li> <input type="checkbox">
+                                 <p data-name="before.uls.eat">
+                                    <span>Не было</span> достаточно практического
+                                    <span>опыта</span> области продуктового
+                                    менеджмента
+                                 </p>
+                              </li>
+
+                              <li> <input type="checkbox">
+                                 <p data-name="before.uls.nin">
+                                    <span>Не было подготовки</span> студентов <span>к
+                                       работе</span> в сфере продуктового
+                                    менеджмента
+                                 </p>
+                              </li>
+
+                              <li> <input type="checkbox">
+                                 <p data-name="before.uls.ten">
+                                    Не было возможности принимать <span>обоснованные
+                                       решения</span> на основе анализа
+                                    рынка
+                                 </p>
+                              </li>
+                           </ul>
+                        </div>
+                        <div class="after">
+                           <img src="/images/Ellipse-after.png" draggable="false" alt="" class="after__img">
+                           <h2 class="after__title" data-after="after.title"><span>после</span> симулятора</h2>
+                           <div class="edit before-after__edit  after__edit">
+                              <span class="black-pencil"></span>
+                              <span class="trash"></span>
+                           </div>
+                           <div class="before-after__header header">
+                              <div class="header__box header__box-after">
+                                 <div class="header__edit header__edit-after edit">
+                                    <span class="black-pencil"></span>
+                                    <span class="green-pencil" data-progres="true"></span>
+                                 </div>
+                                 <p>
+                                    Для выделения активным цветом выберите <br> текст и нажмите на розовый карандашик
+                                 </p>
+                              </div>
+                              <h2 class="header__title header__title-after" data-after="after.name">
+                                 практические знания и умения, необходимые для успешной работы
+                                 в области продуктового
+                                 менеджмента и анализа рынка
+                              </h2>
+                           </div>
+                           <img src="/images/Arrow-green.svg" alt="" draggable="false" class="before__arrow-img">
+                           <div class=" uls-edit_one edit">
+                              <span class="black-pencil"></span>
+                              <span class="green-pencil" data-progres="true"></span>
+                           </div>
+                           <ul class="after__ul">
+                              <li> <input type="checkbox">
+                                 <p data-name="after.uls.one">
+                                    Студенты <span>не имели достаточных знаний</span> о
+                                    продуктовом менеджменте и анализе
+                                    рынка
+                                 </p>
+                              </li>
+                              <li>
+                                 <input type="checkbox">
+                                 <p data-name="after.uls.two"><span>Не было практических занятий</span>, которые
+                                    могли бы помочь студентам научиться
+                                    разрабатывать
+                                    продукт и продвигать его на рынке
+                                 </p>
+                              </li>
+
+                              <li> <input type="checkbox">
+                                 <p data-name="after.uls.tre">
+                                    <span>Не было возможности практически
+                                       применять</span> полученные знания и навыки
+                                 </p>
+                              </li>
+
+                              <li><input type="checkbox">
+                                 <p data-name="after.uls.fou">
+                                    Не было возможности научиться проводить
+                                    <span>SWOT-анализ</span> и анализ рисков
+                                 </p>
+                              </li>
+
+                              <li>
+                                 <input type="checkbox">
+                                 <p data-name="after.uls.fae">
+                                    Не было возможности научиться проводить
+                                    <span>исследования</span> пользователей,
+                                    опросы и интервью
+                                 </p>
+                              </li>
+
+                              <li> <input type="checkbox">
+                                 <p data-name="after.uls.six">
+                                    <span>Не было достаточной информации</span> о
+                                    конкурентах на рынке и способах
+                                    конкуренции
+                                 </p>
+                              </li>
+
+                              <li> <input type="checkbox">
+                                 <p data-name="after.uls.sev">
+                                    <span>Не было знаний</span> об оценке и
+                                    <span>анализе целевой аудитории</span> и
+                                    сегментации рынка
+                                 </p>
+                              </li>
+
+                              <li> <input type="checkbox">
+                                 <p data-name="after.uls.eat">
+                                    <span>Не было</span> достаточно практического
+                                    <span>опыта</span> области продуктового
+                                    менеджмента
+                                 </p>
+                              </li>
+
+                              <li> <input type="checkbox">
+                                 <p data-name="after.uls.nin">
+                                    <span>Не было подготовки</span> студентов <span>к
+                                       работе</span> в сфере продуктового
+                                    менеджмента
+                                 </p>
+                              </li>
+
+                              <li> <input type="checkbox">
+                                 <p data-name="after.uls.ten">
+                                    Не было возможности принимать <span>обоснованные
+                                       решения</span> на основе анализа
+                                    рынка
+                                 </p>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+
+                  </div><!-- /before-after -->
+                  <div data-options_menu="description" class="options__description description">
+                     <div class="description__container">
+                        <div class="description__block">
+                           <div class="description__text-box">
+                              <div class="description__edit edit">
+                                 <span class="black-pencil"></span>
+                                 <span class="green-pencil"></span>
+                              </div>
+                              <p>Для выделения активным цветом выберите <br> текст и нажмите на зелёный карандашик</p>
+                           </div>
+                           <ul class="description__ul">
+                              <li>Студенты смогут применять полученные знания и навыки на практике при разработке
+                                 продукта
+                                 и его продвижении на рынке</li>
+
+                              <li>Симулятор поможет студентам научиться проводить анализ рынка, что позволит им улучшить
+                                 качество продукта и повысить его конкурентоспособность</li>
+
+                              <li>После прохождения симулятора студенты смогут лучше понимать потребности целевой
+                                 аудитории
+                                 и настроить продукт на их нужды, что приведет к повышению удовлетворенности клиентов
+                              </li>
+
+                              <li>Студенты будут уметь проводить SWOT — анализ и анализ рисков, что позволит им
+                                 принимать
+                                 обоснованные решения в области продуктового менеджмента</li>
+
+                              <li>Симулятор поможет студентам развить навыки коммуникации и взаимодействия с различными
+                                 стейкхолдерами при разработке продукта и его продвижении на рынке</li>
+                           </ul>
+                        </div>
+                        <div class="description__block">
+                           <div class="description__title">
+                              <h2><span>Pro</span>duct</h2>
+                              <h2>Mentor</h2>
+                           </div>
+                           <ul class="description__ul">
+                              <li>Cимулятор продуктового менеджмента является одним из лучших инструментов для
+                                 изучения навыков анализа рынка и разработки продукта </li>
+                              <li>Начните использовать его прямо сейчас, и вы получите доступ к практическим
+                                 занятиям, которые помогут вам научиться применять полученные знания и навыки
+                                 на практике</li>
+                              <li>Симулятор предоставит вам достаточно информации о конкурентах на рынке, ключевых
+                                 продуктовых трендах и потребностях целевой аудитории. Начните использовать симулятор
+                                 бесплатно прямо сейчас и станьте экспертом в области продуктового менеджмента!</li>
+                           </ul>
+                           <div class="description__free-text">Начните сейчас <span>бесплатно</span></div>
+                           <button class="description__btn">запустить симуляцию</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+      </main>
+   </div>
+   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+   <script src="index.js" type="module"></script>
+</body>
+
+</html>
