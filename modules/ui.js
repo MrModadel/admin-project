@@ -340,8 +340,8 @@ export function blueclick(edit, th, blueArr = null, color = "blue", data = null,
       if (Array.isArray(th)) {
          th.forEach(element => {
             if (element.checked) {
-               $el = element.nextElementSibling;
-               blueArr = arr_bl[element.nextElementSibling.dataset.name.split('.').at(2)].blueEffects || [];
+               $el = element.nextElementSibling.nextElementSibling;
+               blueArr = arr_bl[element.nextElementSibling.nextElementSibling.dataset.name.split('.').at(2)].blueEffects || [];
             }
          });
       } else
@@ -379,9 +379,12 @@ export function blueclick(edit, th, blueArr = null, color = "blue", data = null,
             item.style.padding = '8px';
             if (item.classList.contains('blue-text')) {
                item.classList.add('temporary-choice-span-active');
+               console.log (color  )
                if (color === 'pink') {
                   item.style.border = '2px solid #e742a5';
                } else if (color === 'green') {
+                  console.log('gtrfd');
+                  
                   item.style.border = '2px solid #abe742';
                }
             }
@@ -440,8 +443,15 @@ export function blueclick(edit, th, blueArr = null, color = "blue", data = null,
                   request('/lessons/' + id, 'get')
                      .then(res => {
                         obj_one[data] = res[data];
-                        obj_one[data].uls[$el.dataset.name.split('.').at(2)].blueEffects = arrBlueText;
-                        request('/lessons/' + id, 'patch', obj_one)
+                        console.log(  obj_one[data].uls[$el.dataset.name.split('.').at(2)]);
+
+                        if (Array.isArray(th))
+                           obj_one[data].uls[$el.dataset.name.split('.').at(2)].blueEffects = arrBlueText;
+                        else
+                           obj_one[data].blueEffects = arrBlueText
+                        console.log(obj_one)
+                           request('/lessons/' + id, 'patch', obj_one)
+
                      })
                }
                localStorage.setItem(`${$el.dataset.itemid}`, JSON.stringify(arrBlueText))

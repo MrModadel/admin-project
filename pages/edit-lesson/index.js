@@ -1,6 +1,8 @@
 import { useHttp } from "../../modules/http.requests";
 import { blueclick } from "../../modules/ui";
 import { upload_img } from "../../modules/upload";
+let doc = document;
+
 let lc = location.search.replace('?', '');
 let add_img_input = document.getElementById('add_img_input');
 let { request } = useHttp()
@@ -13,7 +15,7 @@ $.fn.extend({
             price = true;
          }
          let inter = null;
-         let w = $(this).width();
+         let w = 555
          if (width !== null) {
             w = width
          }
@@ -21,7 +23,7 @@ $.fn.extend({
             fontSize = $el.css('font-size'),
             textTans = $el.css('text-transform'),
             arrBlueText,
-            $edittextbox = $(`<input type="${type}" class="temporary-input"></input>`).css('min-width', w).css('min-height', $el.height()).css('font-size', fontSize).css('text-transform', textTans),
+            $edittextbox = $(`<input type="${type}" class="temporary-input"></input>`).css('max-width', w).css('width', '100%').css('min-height', $el.height()).css('font-size', fontSize).css('text-transform', textTans),
             submitChanges = function () {
                if ($edittextbox.val() !== '') {
                   $el.html($edittextbox.val().trim());
@@ -40,9 +42,8 @@ $.fn.extend({
                      request('/lessons/' + b, 'get')
                         .then(res => {
                            att[sp_item.at(0)] = res[detal];
-                           if (isElements) {
+                           if (isElements)
                               att[sp_item.at(0)][sp_item.at(1)][sp_item.at(2)].title = $edittextbox.val().trim().replaceAll(' ', ' ');
-                           }
                            else
                               att[sp_item.at(0)][sp_item.at(1)] = $edittextbox.val().trim().replaceAll(' ', ' ');
                            request('/lessons/' + b, 'patch', att)
@@ -118,8 +119,10 @@ $.fn.extend({
                         })
                   } else if (sp_item.at(1) === 'uls') {
                      request('/lessons/' + b, 'get')
-                        .then(res => arrBlueText = res.before.uls[sp_item.at(-1)].blueEffects || [])
+                        .then(res => arrBlueText = res[sp_item.at(0)].uls[sp_item.at(-1)].blueEffects || [])
                         .then(() => {
+                           console.log(arrBlueText);
+
                            let wrapperText = $el[0].innerText.toLocaleLowerCase().split(' ');
                            for (let text of arrBlueText) {
                               if ($el[0].innerText.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
@@ -168,7 +171,7 @@ $.fn.extend({
             if (isElements) {
                isElements.forEach(input => {
                   if (input.checked) {
-                     $el = $(input.nextElementSibling)
+                     $el = $(input.nextElementSibling.nextElementSibling)
                   }
                })
             }
@@ -196,19 +199,19 @@ op_items.forEach(item => {
       item.classList.add('options__menu-item--active');
       op_menu_items.forEach(el => {
          if (item.dataset.type === el.dataset.options_menu) {
-            op_menu_items.forEach(e => e.classList.remove('options__active'))
-            el.classList.add('options__active')
+            op_menu_items.forEach(e => e.classList.remove('options__active'));
+            el.classList.add('options__active');
          }
       })
    }
 })
+
 function uuidv4() {
    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
       (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
    );
 }
 
-let doc = document;
 let obj,
    items = doc.querySelectorAll('[data-edit_type_or]'),
    edits = doc.querySelectorAll('[data-edit_type_link]'),
@@ -229,10 +232,12 @@ let obj,
    checkBoxs = doc.querySelectorAll('.before__ul input'),
    checkBoxs_ = doc.querySelectorAll('.after__ul input'),
    uls_edit = doc.querySelector('.uls-edit'),
-   uls_edit_one = doc.querySelector('.uls-edit_one');
-
+   uls_edit_one = doc.querySelector('.uls-edit_one'),
+   description__edit = doc.querySelector('.description__edit'),
+   des_uls = doc.querySelectorAll('.description__ul input');
 checkBoxs[0].checked = true;
 checkBoxs_[0].checked = true;
+des_uls[0].checked = true;
 const map = {
    "full": "Полное",
    'basic': "Базовый",
@@ -391,6 +396,30 @@ await (async function () {
                   "title": "Не было возможности принимать обоснованные решения на основе анализа рынка               ",
                   "blueEffects": []
                }
+            }
+         },
+         "aboutUs": {
+            "uls": {
+               "one": {
+                  "title": "Студенты не имели достаточных знаний о продуктовом менеджменте и анализе рынка",
+                  "blueEffects": []
+               },
+               "two": {
+                  "title": "Не было практических занятий, которые могли бы помочь студентам научиться разрабатывать продукт и продвигать его на рынке               ",
+                  "blueEffects": []
+               },
+               "tre": {
+                  "title": "Не было возможности практически применять полученные знания и навыки               ",
+                  "blueEffects": []
+               },
+               "fou": {
+                  "title": "Не было возможности научиться проводить SWOT-анализ и анализ рисков               ",
+                  "blueEffects": []
+               },
+               "fae": {
+                  "title": "Не было возможности научиться проводить исследования пользователей, опросы и интервью               ",
+                  "blueEffects": []
+               },
             }
          },
          btn_1: "текст_кнопки_1",
@@ -609,7 +638,7 @@ await (async function () {
             edit.click();
          }
       })
-      async function reload_editable(tag, edit_box, id, data, width, eff, beforearr, tag2 = null) {
+      async function reload_editable(tag, edit_box, id, data, width, eff, beforearr, color, tag2 = null) {
          let edit = edit_box.querySelector('.black-pencil');
          let t = edit_box.querySelector('.trash');
          await $(tag).editable($(edit), id, "text", data, data, width)
@@ -623,7 +652,7 @@ await (async function () {
             let spn = edit_box.querySelector(tag2)
             if (spn) {
                tag.dataset.itemid = Math.random();
-               blueclick(spn, tag, obj[beforearr].blueEffects, 'pink', beforearr, id);
+               blueclick(spn, tag, obj[beforearr].blueEffects, color, beforearr, id);
             }
          };
          let wrapperText = $(tag)[0].innerText.toLocaleLowerCase().split(' ');
@@ -647,12 +676,28 @@ await (async function () {
       }
       if (obj.values.img !== undefined)
          value__img.src = obj.values.img;
-      reload_editable('.before__title', before_edit, obj.id, 'before', "384px", 'title_effect', 'before');
-      reload_editable(header__title_before, header_box_bef, obj.id, 'before', "584px", 'blueEffects', 'before', '.pink-pencil');
-      reload_editable('.after__title', after_edit, obj.id, 'after', "384px", 'title_effect', 'after');
-      reload_editable(header__title_after, header__edit_after, obj.id, 'after', "584px", 'blueEffects', 'after', '.green-pencil');
+      reload_editable('.before__title', before_edit, obj.id, 'before', "384px", 'title_effect', 'before', 'pink');
+      reload_editable(header__title_before, header_box_bef, obj.id, 'before', "584px", 'blueEffects', 'before', 'pink', '.pink-pencil');
+      reload_editable('.after__title', after_edit, obj.id, 'after', "384px", 'title_effect', 'after', 'green');
+      reload_editable(header__title_after, header__edit_after, obj.id, 'after', "584px", 'blueEffects', 'after', 'green', '.green-pencil');
+      des_uls.forEach(el => {
+         let p = el.nextElementSibling.nextElementSibling;
+         p.innerHTML = obj.aboutUs.uls[p.dataset.name.split('.').at(-1)].title;
+         let arrBlueText = obj.aboutUs.uls[p.dataset.name.split('.').at(-1)].blueEffects || [];
+         let wrapperText = p.innerText.toLocaleLowerCase().split(' ');
+         for (let text of arrBlueText) {
+            if (p.innerText.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+               let index = wrapperText.indexOf(text.toLocaleLowerCase());
+               if (index !== -1) {
+                  wrapperText[index] = `<span class="blue-text">${text}</span>`;
+               }
+            }
+         }
+         wrapperText = wrapperText.join(' ')
+         p.innerHTML = wrapperText;
+      })
       checkBoxs.forEach(el => {
-         let p = el.nextElementSibling;
+         let p = el.nextElementSibling.nextElementSibling;
          p.innerHTML = obj.before.uls[p.dataset.name.split('.').at(-1)].title;
          let arrBlueText = obj.before.uls[p.dataset.name.split('.').at(-1)].blueEffects || [];
          let wrapperText = p.innerText.toLocaleLowerCase().split(' ');
@@ -668,13 +713,13 @@ await (async function () {
          p.innerHTML = wrapperText;
       })
       checkBoxs_.forEach(el => {
-         let p = el.nextElementSibling;
+         let p = el.nextElementSibling.nextElementSibling;
          p.innerHTML = obj.after.uls[p.dataset.name.split('.').at(-1)].title;
-         let arrBlueText = obj.before.uls[p.dataset.name.split('.').at(-1)].blueEffects || [];
-         let wrapperText = p.innerText.toLocaleLowerCase().split(' ');
+         let arrBlueText = obj.after.uls[p.dataset.name.split('.').at(-1)].blueEffects || [];
+         let wrapperText = p.innerText.toLowerCase().split(' ');
          for (let text of arrBlueText) {
-            if (p.innerText.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
-               let index = wrapperText.indexOf(text.toLocaleLowerCase());
+            if (p.innerText.toLowerCase().includes(text.toLowerCase())) {
+               let index = wrapperText.indexOf(text.toLowerCase());
                if (index !== -1) {
                   wrapperText[index] = `<span class="blue-text">${text}</span>`;
                }
@@ -705,7 +750,6 @@ function doGetCaretPosition(oField) {
    // Return 
    return iCaretPos;
 }
-
 function update_variats(id) {
    request('/lessons/' + id, 'get')
       .then(res => {
@@ -721,24 +765,89 @@ function update_variats(id) {
          })
       })
 }
-
-checkBoxs.forEach(el => {
-   el.onclick = () => {
-      checkBoxs.forEach(del => del.checked = false);
-      el.checked = true;
-   }
-})
-checkBoxs_.forEach(el => {
-   el.onclick = () => {
-      checkBoxs_.forEach(del => del.checked = false);
-      el.checked = true;
-   }
-})
 let [span_edit, span_effect] = uls_edit.querySelectorAll('span');
 let [span_edit_one, span_effect_one] = uls_edit_one.querySelectorAll('span');
+let [span_des, spn_des_two] = description__edit.querySelectorAll('span');
 
 blueclick(span_effect_one, Array.from(checkBoxs_), obj.after.uls, 'green', 'after', obj.id)
-$(checkBoxs_[0].nextElementSibling).editable($(span_edit_one), obj.id, 'text', 'after', 'name', null, checkBoxs_)
+$(checkBoxs_[0].nextElementSibling.nextElementSibling).editable($(span_edit_one), obj.id, 'text', 'after', 'name', null, checkBoxs_)
 
 blueclick(span_effect, Array.from(checkBoxs), obj.before.uls, 'pink', 'before', obj.id)
-$(checkBoxs[0].nextElementSibling).editable($(span_edit), obj.id, 'text', 'before', 'name', null, checkBoxs)
+$(checkBoxs[0].nextElementSibling.nextElementSibling).editable($(span_edit), obj.id, 'text', 'before', 'name', null, checkBoxs)
+let inputs = doc.querySelectorAll('.before li input[type="radio"]');
+let inputs1 = doc.querySelectorAll('.after li input[type="radio"]');
+const wrTemp = () => {
+   let temp;
+   return function inputsWorm(arr, data) {
+      arr.forEach(el => {
+         el.onclick = () => {
+            let top = el.nextElementSibling.childNodes[0].offsetTop - 87;
+            let left = el.nextElementSibling.childNodes[0].offsetLeft - 1.2;
+            let items = doc.querySelectorAll(`.${data} .worm .worm__segment`);
+            let oldTop = temp || arr[0].nextElementSibling.childNodes[0].offsetTop - 87;
+            items.forEach(item => {
+               item.style.transform = `translateY(${top > oldTop ? oldTop + ((top - oldTop) / 2) : (oldTop - (oldTop - top)) + ((oldTop - top) / 2)}px) translateX(${left - (left / 5)}px)`
+               setTimeout(() => {
+                  item.style.transform = `translateY(${top}px) translateX(${left}px)`
+               }, 400);
+            })
+            temp = top;
+         }
+      })
+   }
+}
+wrTemp()
+   (inputs, 'before');
+wrTemp()
+   (inputs1, 'after');
+wrTemp()
+   (des_uls, 'description');
+let element = doc.querySelector('[data-type="before-after"]');
+let dataWr = doc.querySelector('[data-options_menu="before-after"]')
+element.onclick = () => {
+   op_menu_items.forEach(e => e.classList.remove('options__active'));
+   dataWr.classList.add('options__active');
+   op_items.forEach(el => el.classList.remove('options__menu-item--active'));
+   element.classList.add('options__menu-item--active');
+   let top = inputs[0].nextElementSibling.childNodes[0].offsetTop - 87;
+   let left = inputs[0].nextElementSibling.childNodes[0].offsetLeft - 1.2;
+   doc.querySelectorAll(`.before .worm .worm__segment`).forEach(item => {
+      item.style.transform = `translateY(${top}px) translateX(${left}px)`
+   })
+   if (true) {
+      let top = inputs1[0].nextElementSibling.childNodes[0].offsetTop - 87;
+      let left = inputs1[0].nextElementSibling.childNodes[0].offsetLeft - 1.2;
+      doc.querySelectorAll(`.after .worm .worm__segment`).forEach(item => {
+         item.style.transform = `translateY(${top}px) translateX(${left}px)`
+      })
+   }
+}
+
+blueclick(spn_des_two, Array.from(des_uls), obj.aboutUs.uls, 'green', 'aboutUs', obj.id)
+$(des_uls[0].nextElementSibling.nextElementSibling).editable($(span_des), obj.id, 'text', 'aboutUs', 'name', null, des_uls)
+
+
+
+
+
+
+
+
+
+
+
+
+
+let element1 = doc.querySelector('[data-type="description"]');
+let dataWr1 = doc.querySelector('[data-options_menu="description"]')
+element1.onclick = () => {
+   op_menu_items.forEach(e => e.classList.remove('options__active'));
+   dataWr1.classList.add('options__active');
+   op_items.forEach(el => el.classList.remove('options__menu-item--active'));
+   element1.classList.add('options__menu-item--active');
+   let top = des_uls[0].nextElementSibling.childNodes[0].offsetTop - 87;
+   let left = des_uls[0].nextElementSibling.childNodes[0].offsetLeft - 1.2;
+   doc.querySelectorAll(`.description .worm .worm__segment`).forEach(item => {
+      item.style.transform = `translateY(${top}px) translateX(${left}px)`
+   })
+}
