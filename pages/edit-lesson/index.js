@@ -266,7 +266,7 @@ const map = {
    false: 'Нет'
 };
 
-await (async function () {
+(async function () {
    if (lc === 'create') {
       let i = JSON.parse(localStorage.getItem('create_lessons_save'))
       let d;
