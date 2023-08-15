@@ -2,7 +2,14 @@ import { useHttp } from "../../modules/http.requests";
 import { blueclick } from "../../modules/ui";
 import { upload_img } from "../../modules/upload";
 let doc = document;
+let all = doc.querySelectorAll('input[type="radio"]');
 
+all.forEach(el => {
+   let item = el.nextElementSibling.childNodes[0];
+   let div = doc.createElement('div');
+   div.classList.add('inner-circ');
+   item.append(div);
+})
 let lc = location.search.replace('?', '');
 let add_img_input = document.getElementById('add_img_input');
 let { request } = useHttp()
@@ -46,6 +53,8 @@ $.fn.extend({
                               att[sp_item.at(0)][sp_item.at(1)][sp_item.at(2)].title = $edittextbox.val().trim().replaceAll(' ', ' ');
                            else
                               att[sp_item.at(0)][sp_item.at(1)] = $edittextbox.val().trim().replaceAll(' ', ' ');
+
+                           console.log(att)
                            request('/lessons/' + b, 'patch', att)
                               .then(() => {
                                  if ($el[0].className === 'inputs__output') {
@@ -238,6 +247,13 @@ let obj,
 checkBoxs[0].checked = true;
 checkBoxs_[0].checked = true;
 des_uls[0].checked = true;
+checkBoxs[0].nextElementSibling.childNodes[0].childNodes[0].style.opacity = '1'
+checkBoxs_[0].nextElementSibling.childNodes[0].childNodes[0].style.opacity = '1'
+des_uls[0].nextElementSibling.childNodes[0].childNodes[0].style.opacity = '1'
+randomSet(checkBoxs);
+randomSet(checkBoxs_);
+randomSet(des_uls);
+
 const map = {
    "full": "Полное",
    'basic': "Базовый",
@@ -655,9 +671,14 @@ await (async function () {
                blueclick(spn, tag, obj[beforearr].blueEffects, color, beforearr, id);
             }
          };
+         if (eff === 'title_effect') {
+            $(tag)[0].innerText = obj[beforearr].title;
+         } else {
+            $(tag)[0].innerText = obj[beforearr].name;
+         }
          let wrapperText = $(tag)[0].innerText.toLocaleLowerCase().split(' ');
          for (let text of obj[beforearr][eff]) {
-            if ($(tag)[0].innerText.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+            if ($(tag)[0].innerText.toLowerCase().includes(text.toLowerCase())) {
                let index = wrapperText.indexOf(text.toLocaleLowerCase());
                if (index !== -1) {
                   wrapperText[index] = `<span class="blue-text">${text}</span>`;
@@ -728,126 +749,71 @@ await (async function () {
          wrapperText = wrapperText.join(' ')
          p.innerHTML = wrapperText;
       })
-   })
-function doGetCaretPosition(oField) {
-   let iCaretPos = 0;
 
-   if (document.selection) {
+      function doGetCaretPosition(oField) {
+         let iCaretPos = 0;
 
-      oField.focus();
-      var oSel = document.selection.createRange();
+         if (document.selection) {
 
-      oSel.moveStart('character', -oField.value.length);
+            oField.focus();
+            var oSel = document.selection.createRange();
 
-      iCaretPos = oSel.text.length;
-   }
+            oSel.moveStart('character', -oField.value.length);
 
-   // Firefox 
-   else if (oField.selectionStart || oField.selectionStart == '0')
-      iCaretPos = oField.selectionDirection == 'backward' ? oField.selectionStart : oField.selectionEnd;
-   oField.selectionEnd = oField.value.indexOf('₽'), oField.selectionStart = oField.value.indexOf('₽')
+            iCaretPos = oSel.text.length;
+         }
 
-   // Return 
-   return iCaretPos;
-}
-function update_variats(id) {
-   request('/lessons/' + id, 'get')
-      .then(res => {
-         let { options } = res;
-         variats.forEach(variat => {
-            let value = options[variat.dataset.variat]
-            let span = variat.querySelector('span');
-            if (variat.dataset.variat === 'price' || variat.dataset.variat === 'practical') {
-               span.innerHTML = value;
-            } else {
-               span.innerHTML = map[value];
+         // Firefox 
+         else if (oField.selectionStart || oField.selectionStart == '0')
+            iCaretPos = oField.selectionDirection == 'backward' ? oField.selectionStart : oField.selectionEnd;
+         oField.selectionEnd = oField.value.indexOf('₽'), oField.selectionStart = oField.value.indexOf('₽')
+
+         // Return 
+         return iCaretPos;
+      }
+      function update_variats(id) {
+         request('/lessons/' + id, 'get')
+            .then(res => {
+               let { options } = res;
+               variats.forEach(variat => {
+                  let value = options[variat.dataset.variat]
+                  let span = variat.querySelector('span');
+                  if (variat.dataset.variat === 'price' || variat.dataset.variat === 'practical') {
+                     span.innerHTML = value;
+                  } else {
+                     span.innerHTML = map[value];
+                  }
+               })
+            })
+      }
+      let [span_edit, span_effect] = uls_edit.querySelectorAll('span');
+      let [span_edit_one, span_effect_one] = uls_edit_one.querySelectorAll('span');
+      let [span_des, spn_des_two] = description__edit.querySelectorAll('span');
+
+      blueclick(span_effect_one, Array.from(checkBoxs_), obj.after.uls, 'green', 'after', obj.id)
+      $(checkBoxs_[0].nextElementSibling.nextElementSibling).editable($(span_edit_one), obj.id, 'text', 'after', 'name', null, checkBoxs_)
+      blueclick(span_effect, Array.from(checkBoxs), obj.before.uls, 'pink', 'before', obj.id)
+      $(checkBoxs[0].nextElementSibling.nextElementSibling).editable($(span_edit), obj.id, 'text', 'before', 'name', null, checkBoxs)
+      blueclick(spn_des_two, Array.from(des_uls), obj.aboutUs.uls, 'green', 'aboutUs', obj.id)
+      $(des_uls[0].nextElementSibling.nextElementSibling).editable($(span_des), obj.id, 'text', 'aboutUs', 'name', null, des_uls)
+      function inputsWorm(arr, input) {
+         arr.forEach(el => {
+            el.onclick = () => {
+               let item = el.nextElementSibling.childNodes[0].childNodes[0];
+               arr.forEach(i => i.nextElementSibling.childNodes[0].childNodes[0].style.opacity = '0');
+               setTimeout(() => {
+                  item.style.opacity = '1'
+                  input.dataset.progres = 'true';
+               }, 4);
             }
          })
-      })
-}
-let [span_edit, span_effect] = uls_edit.querySelectorAll('span');
-let [span_edit_one, span_effect_one] = uls_edit_one.querySelectorAll('span');
-let [span_des, spn_des_two] = description__edit.querySelectorAll('span');
-
-blueclick(span_effect_one, Array.from(checkBoxs_), obj.after.uls, 'green', 'after', obj.id)
-$(checkBoxs_[0].nextElementSibling.nextElementSibling).editable($(span_edit_one), obj.id, 'text', 'after', 'name', null, checkBoxs_)
-
-blueclick(span_effect, Array.from(checkBoxs), obj.before.uls, 'pink', 'before', obj.id)
-$(checkBoxs[0].nextElementSibling.nextElementSibling).editable($(span_edit), obj.id, 'text', 'before', 'name', null, checkBoxs)
-let inputs = doc.querySelectorAll('.before li input[type="radio"]');
-let inputs1 = doc.querySelectorAll('.after li input[type="radio"]');
-const wrTemp = () => {
-   let temp;
-   return function inputsWorm(arr, data) {
-      arr.forEach(el => {
-         el.onclick = () => {
-            let top = el.nextElementSibling.childNodes[0].offsetTop - 87;
-            let left = el.nextElementSibling.childNodes[0].offsetLeft - 1.2;
-            let items = doc.querySelectorAll(`.${data} .worm .worm__segment`);
-            let oldTop = temp || arr[0].nextElementSibling.childNodes[0].offsetTop - 87;
-            items.forEach(item => {
-               item.style.transform = `translateY(${top > oldTop ? oldTop + ((top - oldTop) / 2) : (oldTop - (oldTop - top)) + ((oldTop - top) / 2)}px) translateX(${left - (left / 5)}px)`
-               setTimeout(() => {
-                  item.style.transform = `translateY(${top}px) translateX(${left}px)`
-               }, 400);
-            })
-            temp = top;
-         }
-      })
-   }
-}
-wrTemp()
-   (inputs, 'before');
-wrTemp()
-   (inputs1, 'after');
-wrTemp()
-   (des_uls, 'description');
-let element = doc.querySelector('[data-type="before-after"]');
-let dataWr = doc.querySelector('[data-options_menu="before-after"]')
-element.onclick = () => {
-   op_menu_items.forEach(e => e.classList.remove('options__active'));
-   dataWr.classList.add('options__active');
-   op_items.forEach(el => el.classList.remove('options__menu-item--active'));
-   element.classList.add('options__menu-item--active');
-   let top = inputs[0].nextElementSibling.childNodes[0].offsetTop - 87;
-   let left = inputs[0].nextElementSibling.childNodes[0].offsetLeft - 1.2;
-   doc.querySelectorAll(`.before .worm .worm__segment`).forEach(item => {
-      item.style.transform = `translateY(${top}px) translateX(${left}px)`
+      }
+      inputsWorm(checkBoxs, span_effect);
+      inputsWorm(checkBoxs_, span_effect_one);
+      inputsWorm(des_uls, spn_des_two);
    })
-   if (true) {
-      let top = inputs1[0].nextElementSibling.childNodes[0].offsetTop - 87;
-      let left = inputs1[0].nextElementSibling.childNodes[0].offsetLeft - 1.2;
-      doc.querySelectorAll(`.after .worm .worm__segment`).forEach(item => {
-         item.style.transform = `translateY(${top}px) translateX(${left}px)`
-      })
-   }
-}
-
-blueclick(spn_des_two, Array.from(des_uls), obj.aboutUs.uls, 'green', 'aboutUs', obj.id)
-$(des_uls[0].nextElementSibling.nextElementSibling).editable($(span_des), obj.id, 'text', 'aboutUs', 'name', null, des_uls)
-
-
-
-
-
-
-
-
-
-
-
-
-
-let element1 = doc.querySelector('[data-type="description"]');
-let dataWr1 = doc.querySelector('[data-options_menu="description"]')
-element1.onclick = () => {
-   op_menu_items.forEach(e => e.classList.remove('options__active'));
-   dataWr1.classList.add('options__active');
-   op_items.forEach(el => el.classList.remove('options__menu-item--active'));
-   element1.classList.add('options__menu-item--active');
-   let top = des_uls[0].nextElementSibling.childNodes[0].offsetTop - 87;
-   let left = des_uls[0].nextElementSibling.childNodes[0].offsetLeft - 1.2;
-   doc.querySelectorAll(`.description .worm .worm__segment`).forEach(item => {
-      item.style.transform = `translateY(${top}px) translateX(${left}px)`
+function randomSet(arr) {
+   arr.forEach(el => {
+      el.nextElementSibling.nextElementSibling.dataset.itemid = Math.random();
    })
 }
