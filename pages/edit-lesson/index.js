@@ -253,7 +253,11 @@ des_uls[0].nextElementSibling.childNodes[0].childNodes[0].style.opacity = '1'
 randomSet(checkBoxs);
 randomSet(checkBoxs_);
 randomSet(des_uls);
-
+function randomSet(arr) {
+   arr.forEach(el => {
+      el.nextElementSibling.nextElementSibling.dataset.itemid = Math.random();
+   })
+}
 const map = {
    "full": "Полное",
    'basic': "Базовый",
@@ -811,9 +815,5 @@ await (async function () {
       inputsWorm(checkBoxs, span_effect);
       inputsWorm(checkBoxs_, span_effect_one);
       inputsWorm(des_uls, spn_des_two);
+
    })
-function randomSet(arr) {
-   arr.forEach(el => {
-      el.nextElementSibling.nextElementSibling.dataset.itemid = Math.random();
-   })
-}
