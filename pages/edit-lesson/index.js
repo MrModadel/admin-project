@@ -214,7 +214,27 @@ op_items.forEach(item => {
       })
    }
 })
+function doGetCaretPosition(oField) {
+   let iCaretPos = 0;
 
+   if (document.selection) {
+
+      oField.focus();
+      var oSel = document.selection.createRange();
+
+      oSel.moveStart('character', -oField.value.length);
+
+      iCaretPos = oSel.text.length;
+   }
+
+   // Firefox 
+   else if (oField.selectionStart || oField.selectionStart == '0')
+      iCaretPos = oField.selectionDirection == 'backward' ? oField.selectionStart : oField.selectionEnd;
+   oField.selectionEnd = oField.value.indexOf('₽'), oField.selectionStart = oField.value.indexOf('₽')
+
+   // Return 
+   return iCaretPos;
+} 1
 function uuidv4() {
    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
       (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
@@ -266,6 +286,21 @@ const map = {
    false: 'Нет'
 };
 
+function update_variats(id) {
+   request('/lessons/' + id, 'get')
+      .then(res => {
+         let { options } = res;
+         variats.forEach(variat => {
+            let value = options[variat.dataset.variat]
+            let span = variat.querySelector('span');
+            if (variat.dataset.variat === 'price' || variat.dataset.variat === 'practical') {
+               span.innerHTML = value;
+            } else {
+               span.innerHTML = map[value];
+            }
+         })
+      })
+}
 (async function () {
    if (lc === 'create') {
       let i = JSON.parse(localStorage.getItem('create_lessons_save'))
@@ -754,42 +789,7 @@ const map = {
          p.innerHTML = wrapperText;
       })
 
-      function doGetCaretPosition(oField) {
-         let iCaretPos = 0;
 
-         if (document.selection) {
-
-            oField.focus();
-            var oSel = document.selection.createRange();
-
-            oSel.moveStart('character', -oField.value.length);
-
-            iCaretPos = oSel.text.length;
-         }
-
-         // Firefox 
-         else if (oField.selectionStart || oField.selectionStart == '0')
-            iCaretPos = oField.selectionDirection == 'backward' ? oField.selectionStart : oField.selectionEnd;
-         oField.selectionEnd = oField.value.indexOf('₽'), oField.selectionStart = oField.value.indexOf('₽')
-
-         // Return 
-         return iCaretPos;
-      }
-      function update_variats(id) {
-         request('/lessons/' + id, 'get')
-            .then(res => {
-               let { options } = res;
-               variats.forEach(variat => {
-                  let value = options[variat.dataset.variat]
-                  let span = variat.querySelector('span');
-                  if (variat.dataset.variat === 'price' || variat.dataset.variat === 'practical') {
-                     span.innerHTML = value;
-                  } else {
-                     span.innerHTML = map[value];
-                  }
-               })
-            })
-      }
       let [span_edit, span_effect] = uls_edit.querySelectorAll('span');
       let [span_edit_one, span_effect_one] = uls_edit_one.querySelectorAll('span');
       let [span_des, spn_des_two] = description__edit.querySelectorAll('span');
