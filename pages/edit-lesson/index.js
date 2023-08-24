@@ -1,15 +1,8 @@
 import { useHttp } from "../../modules/http.requests";
-import { blueclick } from "../../modules/ui";
+import { blueclick, reload_uls, uuidv4 } from "../../modules/ui";
 import { upload_img } from "../../modules/upload";
 let doc = document;
-let all = doc.querySelectorAll('input[type="radio"]');
 
-all.forEach(el => {
-   let item = el.nextElementSibling.childNodes[0];
-   let div = doc.createElement('div');
-   div.classList.add('inner-circ');
-   item.append(div);
-})
 let lc = location.search.replace('?', '');
 let add_img_input = document.getElementById('add_img_input');
 let { request } = useHttp()
@@ -130,8 +123,6 @@ $.fn.extend({
                      request('/lessons/' + b, 'get')
                         .then(res => arrBlueText = res[sp_item.at(0)].uls[sp_item.at(-1)].blueEffects || [])
                         .then(() => {
-                           console.log(arrBlueText);
-
                            let wrapperText = $el[0].innerText.toLocaleLowerCase().split(' ');
                            for (let text of arrBlueText) {
                               if ($el[0].innerText.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
@@ -234,11 +225,6 @@ function doGetCaretPosition(oField) {
 
    // Return 
    return iCaretPos;
-} 1
-function uuidv4() {
-   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-   );
 }
 
 let obj,
@@ -264,20 +250,11 @@ let obj,
    uls_edit_one = doc.querySelector('.uls-edit_one'),
    description__edit = doc.querySelector('.description__edit'),
    des_uls = doc.querySelectorAll('.description__ul input');
-checkBoxs[0].checked = true;
-checkBoxs_[0].checked = true;
-des_uls[0].checked = true;
-checkBoxs[0].nextElementSibling.childNodes[0].childNodes[0].style.opacity = '1'
-checkBoxs_[0].nextElementSibling.childNodes[0].childNodes[0].style.opacity = '1'
-des_uls[0].nextElementSibling.childNodes[0].childNodes[0].style.opacity = '1'
-randomSet(checkBoxs);
-randomSet(checkBoxs_);
-randomSet(des_uls);
-function randomSet(arr) {
-   arr.forEach(el => {
-      el.nextElementSibling.nextElementSibling.dataset.itemid = Math.random();
-   })
-}
+   function randomSet(arr) {
+      arr.forEach(el => {
+         el.nextElementSibling.nextElementSibling.dataset.itemid = Math.random();
+      })
+   }
 const map = {
    "full": "Полное",
    'basic': "Базовый",
@@ -356,48 +333,58 @@ function update_variats(id) {
                "знаний",
                "нет"
             ],
-            "uls": {
-               "one": {
+            "uls": [
+               {
+                  "id": uuidv4(),
                   "title": "Студенты не имели достаточных знаний о продуктовом менеджменте и анализе рынка",
                   "blueEffects": []
                },
-               "two": {
+               {
+                  "id": uuidv4(),
                   "title": "Не было практических занятий, которые могли бы помочь студентам научиться разрабатывать продукт и продвигать его на рынке               ",
                   "blueEffects": []
                },
-               "tre": {
+               {
+                  "id": uuidv4(),
                   "title": "Не было возможности практически применять полученные знания и навыки               ",
                   "blueEffects": []
                },
-               "fou": {
+               {
+                  "id": uuidv4(),
                   "title": "Не было возможности научиться проводить SWOT-анализ и анализ рисков               ",
                   "blueEffects": []
                },
-               "fae": {
+               {
+                  "id": uuidv4(),
                   "title": "Не было возможности научиться проводить исследования пользователей, опросы и интервью               ",
                   "blueEffects": []
                },
-               "six": {
+               {
+                  "id": uuidv4(),
                   "title": "Не было достаточной информации о конкурентах на рынке и способах конкуренции               ",
                   "blueEffects": []
                },
-               "sev": {
+               {
+                  "id": uuidv4(),
                   "title": "Не было знаний об оценке и анализе целевой аудитории и сегментации рынка               ",
                   "blueEffects": []
                },
-               "eat": {
+               {
+                  "id": uuidv4(),
                   "title": "Не было достаточно практического опыта в области продуктового менеджмента               ",
                   "blueEffects": []
                },
-               "nin": {
+               {
+                  "id": uuidv4(),
                   "title": "Не было подготовки студентов к работе в сфере продуктового менеджмента               ",
                   "blueEffects": []
                },
-               "ten": {
+               {
+                  "id": uuidv4(),
                   "title": "Не было возможности принимать обоснованные решения на основе анализа рынка               ",
                   "blueEffects": []
                }
-            }
+            ]
          },
          "after": {
             "title": "после симулятора",
@@ -410,72 +397,46 @@ function update_variats(id) {
                "знания"
             ],
 
-            "uls": {
-               "one": {
-                  "title": "Студенты не имели достаточных знаний о продуктовом менеджменте и анализе рынка",
-                  "blueEffects": []
-               },
-               "two": {
-                  "title": "Не было практических занятий, которые могли бы помочь студентам научиться разрабатывать продукт и продвигать его на рынке               ",
-                  "blueEffects": []
-               },
-               "tre": {
-                  "title": "Не было возможности практически применять полученные знания и навыки               ",
-                  "blueEffects": []
-               },
-               "fou": {
-                  "title": "Не было возможности научиться проводить SWOT-анализ и анализ рисков               ",
-                  "blueEffects": []
-               },
-               "fae": {
+            "uls": [
+               {
+                  "id": uuidv4(),
                   "title": "Не было возможности научиться проводить исследования пользователей, опросы и интервью               ",
                   "blueEffects": []
                },
-               "six": {
+               {
+                  "id": uuidv4(),
                   "title": "Не было достаточной информации о конкурентах на рынке и способах конкуренции               ",
                   "blueEffects": []
                },
-               "sev": {
+               {
+                  "id": uuidv4(),
                   "title": "Не было знаний об оценке и анализе целевой аудитории и сегментации рынка               ",
                   "blueEffects": []
-               },
-               "eat": {
-                  "title": "Не было достаточно практического опыта в области продуктового менеджмента               ",
-                  "blueEffects": []
-               },
-               "nin": {
-                  "title": "Не было подготовки студентов к работе в сфере продуктового менеджмента               ",
-                  "blueEffects": []
-               },
-               "ten": {
-                  "title": "Не было возможности принимать обоснованные решения на основе анализа рынка               ",
-                  "blueEffects": []
                }
-            }
+            ]
          },
          "aboutUs": {
-            "uls": {
-               "one": {
-                  "title": "Студенты не имели достаточных знаний о продуктовом менеджменте и анализе рынка",
-                  "blueEffects": []
-               },
-               "two": {
-                  "title": "Не было практических занятий, которые могли бы помочь студентам научиться разрабатывать продукт и продвигать его на рынке               ",
-                  "blueEffects": []
-               },
-               "tre": {
+            "uls": [
+
+               {
+                  "id": uuidv4(),
+
                   "title": "Не было возможности практически применять полученные знания и навыки               ",
                   "blueEffects": []
                },
-               "fou": {
+               {
+                  "id": uuidv4(),
+
                   "title": "Не было возможности научиться проводить SWOT-анализ и анализ рисков               ",
                   "blueEffects": []
                },
-               "fae": {
+               {
+                  "id": uuidv4(),
+
                   "title": "Не было возможности научиться проводить исследования пользователей, опросы и интервью               ",
                   "blueEffects": []
-               },
-            }
+               }
+            ]
          },
          btn_1: "текст_кнопки_1",
          btn_2: "текст_кнопки_2"
@@ -618,14 +579,11 @@ function update_variats(id) {
                      output.dataset.status = st;
                      output.innerHTML = inner;
                      let obj_one = {}
-                     request('/lessons/' + obj.id, 'get')
-                        .then(res => {
-                           obj_one[output.dataset.edit_type.split('.').at(0)] = res.options;
-                           obj_one[output.dataset.edit_type.split('.').at(0)][output.dataset.edit_type.split('.').at(1)] = st;
-                           request('/lessons/' + obj.id, 'patch', obj_one).then(() => {
-                              update_variats(obj.id);
-                           })
-                        })
+                     obj_one[output.dataset.edit_type.split('.').at(0)] = obj.options;
+                     obj_one[output.dataset.edit_type.split('.').at(0)][output.dataset.edit_type.split('.').at(1)] = st;
+                     request('/lessons/' + obj.id, 'patch', obj_one).then(() => {
+                        update_variats(obj.id);
+                     })
                   }
                }
 
@@ -648,17 +606,17 @@ function update_variats(id) {
             })
             detals.forEach(detal => {
                let text = detal.querySelector('.detals__text');
-               text.innerHTML = res.detals[detal.dataset.count]
+               text.innerHTML = obj.detals[detal.dataset.count]
             })
             values.forEach(el => {
                let p = el.querySelector('p');
                let v = el.dataset.num_value.split('.').at(-1)
-               p.innerText = res.values[v]
+               p.innerText = obj.values[v]
             })
             skills_items.forEach(elem => {
                let p = elem.querySelector('p');
                let v = elem.dataset.num_skill.split('.').at(-1)
-               p.innerText = res.skills[v]
+               p.innerText = obj.skills[v]
             })
          })
       detals.forEach(async detal => {
@@ -740,60 +698,36 @@ function update_variats(id) {
       reload_editable(header__title_before, header_box_bef, obj.id, 'before', "584px", 'blueEffects', 'before', 'pink', '.pink-pencil');
       reload_editable('.after__title', after_edit, obj.id, 'after', "384px", 'title_effect', 'after', 'green');
       reload_editable(header__title_after, header__edit_after, obj.id, 'after', "584px", 'blueEffects', 'after', 'green', '.green-pencil');
-      des_uls.forEach(el => {
-         let p = el.nextElementSibling.nextElementSibling;
-         p.innerHTML = obj.aboutUs.uls[p.dataset.name.split('.').at(-1)].title;
-         let arrBlueText = obj.aboutUs.uls[p.dataset.name.split('.').at(-1)].blueEffects || [];
-         let wrapperText = p.innerText.toLocaleLowerCase().split(' ');
-         for (let text of arrBlueText) {
-            if (p.innerText.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
-               let index = wrapperText.indexOf(text.toLocaleLowerCase());
-               if (index !== -1) {
-                  wrapperText[index] = `<span class="blue-text">${text}</span>`;
-               }
-            }
-         }
-         wrapperText = wrapperText.join(' ')
-         p.innerHTML = wrapperText;
-      })
-      checkBoxs.forEach(el => {
-         let p = el.nextElementSibling.nextElementSibling;
-         p.innerHTML = obj.before.uls[p.dataset.name.split('.').at(-1)].title;
-         let arrBlueText = obj.before.uls[p.dataset.name.split('.').at(-1)].blueEffects || [];
-         let wrapperText = p.innerText.toLocaleLowerCase().split(' ');
-         for (let text of arrBlueText) {
-            if (p.innerText.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
-               let index = wrapperText.indexOf(text.toLocaleLowerCase());
-               if (index !== -1) {
-                  wrapperText[index] = `<span class="blue-text">${text}</span>`;
-               }
-            }
-         }
-         wrapperText = wrapperText.join(' ')
-         p.innerHTML = wrapperText;
-      })
-      checkBoxs_.forEach(el => {
-         let p = el.nextElementSibling.nextElementSibling;
-         p.innerHTML = obj.after.uls[p.dataset.name.split('.').at(-1)].title;
-         let arrBlueText = obj.after.uls[p.dataset.name.split('.').at(-1)].blueEffects || [];
-         let wrapperText = p.innerText.toLowerCase().split(' ');
-         for (let text of arrBlueText) {
-            if (p.innerText.toLowerCase().includes(text.toLowerCase())) {
-               let index = wrapperText.indexOf(text.toLowerCase());
-               if (index !== -1) {
-                  wrapperText[index] = `<span class="blue-text">${text}</span>`;
-               }
-            }
-         }
-         wrapperText = wrapperText.join(' ')
-         p.innerHTML = wrapperText;
-      })
 
+      reload_uls(checkBoxs[0].parentNode.parentNode, obj.before.uls , 'before');
+      reload_uls(checkBoxs_[0].parentNode.parentNode, obj.after.uls, 'after');
+      reload_uls(des_uls[0].parentNode.parentNode, obj.aboutUs.uls , 'aboutUs');
 
+      let all = doc.querySelectorAll('input[type="radio"]');
+      all.forEach(el => {
+         let item = el.nextElementSibling.childNodes[0];
+         let div = doc.createElement('div');
+         div.classList.add('inner-circ');
+         item.append(div);
+      })
+      checkBoxs = doc.querySelectorAll('.before__ul input')
+      checkBoxs_ = doc.querySelectorAll('.after__ul input')
+      des_uls = doc.querySelectorAll('.description__ul input');
+
+      checkBoxs[0].checked = true;
+      checkBoxs_[0].checked = true;
+      des_uls[0].checked = true;
+      console.log(des_uls[0].nextElementSibling);
+
+      checkBoxs[0].nextElementSibling.childNodes[0].childNodes[0].style.opacity = '1'
+      checkBoxs_[0].nextElementSibling.childNodes[0].childNodes[0].style.opacity = '1'
+      des_uls[0].nextElementSibling.childNodes[0].childNodes[0].style.opacity = '1'
+      randomSet(checkBoxs);
+      randomSet(checkBoxs_);
+      randomSet(des_uls);
       let [span_edit, span_effect] = uls_edit.querySelectorAll('span');
       let [span_edit_one, span_effect_one] = uls_edit_one.querySelectorAll('span');
       let [span_des, spn_des_two] = description__edit.querySelectorAll('span');
-
       blueclick(span_effect_one, Array.from(checkBoxs_), obj.after.uls, 'green', 'after', obj.id)
       $(checkBoxs_[0].nextElementSibling.nextElementSibling).editable($(span_edit_one), obj.id, 'text', 'after', 'name', null, checkBoxs_)
       blueclick(span_effect, Array.from(checkBoxs), obj.before.uls, 'pink', 'before', obj.id)
@@ -804,6 +738,7 @@ function update_variats(id) {
          arr.forEach(el => {
             el.onclick = () => {
                let item = el.nextElementSibling.childNodes[0].childNodes[0];
+               console.log(item);
                arr.forEach(i => i.nextElementSibling.childNodes[0].childNodes[0].style.opacity = '0');
                setTimeout(() => {
                   item.style.opacity = '1'
@@ -815,5 +750,4 @@ function update_variats(id) {
       inputsWorm(checkBoxs, span_effect);
       inputsWorm(checkBoxs_, span_effect_one);
       inputsWorm(des_uls, spn_des_two);
-
    })

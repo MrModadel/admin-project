@@ -302,7 +302,7 @@ $.fn.extend({
                   }
                   $el.show();
                   $el.trigger('editsubmit', [$el.html()]);
-                  $(document).unbind('click', submitChanges); 
+                  $(document).unbind('click', submitChanges);
                   $edittextbox.detach();
                }
             },
@@ -334,14 +334,15 @@ $.fn.extend({
    }
 });
 export function blueclick(edit, th, blueArr = null, color = "blue", data = null, id,) {
-   let arr_bl = Object.assign({}, blueArr);
+   let arr_bl = Object.assign([], blueArr);
    edit.onclick = () => {
       let $el;
       if (Array.isArray(th)) {
          th.forEach(element => {
             if (element.checked) {
                $el = element.nextElementSibling.nextElementSibling;
-               blueArr = arr_bl[element.nextElementSibling.nextElementSibling.dataset.name.split('.').at(2)].blueEffects || [];
+               let id = element.nextElementSibling.nextElementSibling.dataset.name.split('.').at(2);
+               blueArr = arr_bl.find(i => i.id === id).blueEffects || [];
             }
          });
       } else
@@ -440,8 +441,10 @@ export function blueclick(edit, th, blueArr = null, color = "blue", data = null,
                   request('/lessons/' + id, 'get')
                      .then(res => {
                         obj_one[data] = res[data];
-                        if (Array.isArray(th))
-                           obj_one[data].uls[$el.dataset.name.split('.').at(2)].blueEffects = arrBlueText;
+                        if (Array.isArray(th)) {
+                           obj_one[data].uls = arr_bl;
+                           obj_one[data].uls.find(i => i.id === $el.dataset.name.split('.').at(2)).blueEffects = arrBlueText
+                        }
                         else
                            obj_one[data].blueEffects = arrBlueText
                         request('/lessons/' + id, 'patch', obj_one)
@@ -519,4 +522,57 @@ function reloadImg(top_img, edit, i) {
       request('/lessons/' + i.id, 'patch', i).then(() => { top_img.style.display = 'none' });
    }
 }
+function makeid(length) {
+   let result = '';
+   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   const charactersLength = characters.length;
+   let counter = 0;
+   while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+   }
+   return result;
+}
+export function uuidv4() {
+   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+   );
+}
+export function reload_uls(place, arr, data) {
+   place.innerHTML = '';
+   let name = makeid(7);
+   for (let item of arr) {
+      let id = uuidv4() + '_' + uuidv4();
+      let li = document.createElement('li');
+      let input = document.createElement('input');
+      let label = document.createElement('label');
+      let p = document.createElement('p');
+      let spn = document.createElement('span');
+      //inner
+      input.type = 'radio';
+      input.name = name;
+      input.id = id;
+      label.setAttribute('for', id)
+      li.dataset.elId = item.id;
+      p.dataset.name = `${data}.uls.${item.id}`
+      p.innerHTML = item.title;
+      //append 
+      label.appendChild(spn);
+      li.append(input, label, p);
+      place.append(li);
+      let arrBlueText = item.blueEffects || [];
+      let wrapperText = p.innerText.toLocaleLowerCase().split(' ');
+      for (let text of arrBlueText) {
+         if (p.innerText.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+            let index = wrapperText.indexOf(text.toLocaleLowerCase());
+            if (index !== -1) {
+               wrapperText[index] = `<span class="blue-text">${text}</span>`;
+            }
+         }
+      }
+      wrapperText = wrapperText.join(' ')
+      console.log(wrapperText);
 
+      p.innerHTML = wrapperText;
+   }
+}
