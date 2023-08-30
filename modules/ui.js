@@ -538,16 +538,23 @@ export function uuidv4() {
       (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
    );
 }
-export function reload_uls(place, arr, data) {
+export function reload_uls(place, arr, data, spn) {
    place.innerHTML = '';
    let name = makeid(7);
+   let doc = document;
+   let temp = [];
+   console.log(arr);
+
+   arr = arr.filter(el => el !== null);
+
    for (let item of arr) {
       let id = uuidv4() + '_' + uuidv4();
-      let li = document.createElement('li');
-      let input = document.createElement('input');
-      let label = document.createElement('label');
-      let p = document.createElement('p');
-      let spn = document.createElement('span');
+      let li = doc.createElement('li');
+      let input = doc.createElement('input');
+      let label = doc.createElement('label');
+      let p = doc.createElement('p');
+      let spn = doc.createElement('span');
+      let div = doc.createElement('div');
       //inner
       input.type = 'radio';
       input.name = name;
@@ -556,10 +563,18 @@ export function reload_uls(place, arr, data) {
       li.dataset.elId = item.id;
       p.dataset.name = `${data}.uls.${item.id}`
       p.innerHTML = item.title;
+      p.dataset.itemid = uuidv4() + "--" + Math.random();
+      div.classList.add('inner-circ');
+
       //append 
+      spn.appendChild(div)
       label.appendChild(spn);
       li.append(input, label, p);
       place.append(li);
+      if (arr[0] === item) {
+         input.checked = true;
+         div.style.opacity = '1';
+      }
       let arrBlueText = item.blueEffects || [];
       let wrapperText = p.innerText.toLocaleLowerCase().split(' ');
       for (let text of arrBlueText) {
@@ -571,8 +586,22 @@ export function reload_uls(place, arr, data) {
          }
       }
       wrapperText = wrapperText.join(' ')
-      console.log(wrapperText);
-
       p.innerHTML = wrapperText;
+      temp.push(input);
    }
+   inputsWorm(temp, spn);
+   return temp;
+}
+
+export function inputsWorm(arr, spn) {
+   arr.forEach(el => {
+      el.onclick = () => {
+         let item = el.nextElementSibling.childNodes[0].childNodes[0];
+         arr.forEach(i => i.nextElementSibling.childNodes[0].childNodes[0].style.opacity = '0');
+         setTimeout(() => {
+            item.style.opacity = '1'
+            spn.dataset.progres = 'true';
+         }, 4);
+      }
+   })
 }

@@ -93,6 +93,7 @@ span.add {
 
    &__add {
       @include rangeStyle("/images/plus-vector.svg", $colorGrey);
+      cursor: pointer;
    }
 }
 .black-pencil {
@@ -1061,6 +1062,9 @@ span.add {
       font-size: $fontSize_20;
       font-weight: $fontWidth_500;
       line-height: 120%;
+      @include flex();
+      flex-direction: column;
+      align-items: flex-start;
       li {
          gap: 10px;
          @include flex();
@@ -1138,6 +1142,11 @@ span.add {
    &_one {
       display: inline-flex;
       margin-bottom: 40px;
+   }
+   &_two {
+      display: inline-flex;
+      margin-bottom: 40px;
+      margin-left: 66%;
    }
 }
 

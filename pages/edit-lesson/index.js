@@ -1,9 +1,11 @@
 import { useHttp } from "../../modules/http.requests";
-import { blueclick, reload_uls, uuidv4 } from "../../modules/ui";
+import { blueclick, inputsWorm, reload_uls, uuidv4 } from "../../modules/ui";
 import { upload_img } from "../../modules/upload";
 let doc = document;
 
 let lc = location.search.replace('?', '');
+
+
 let add_img_input = document.getElementById('add_img_input');
 let { request } = useHttp()
 $.fn.extend({
@@ -43,11 +45,9 @@ $.fn.extend({
                         .then(res => {
                            att[sp_item.at(0)] = res[detal];
                            if (isElements)
-                              att[sp_item.at(0)][sp_item.at(1)][sp_item.at(2)].title = $edittextbox.val().trim().replaceAll(' ', ' ');
+                              att[sp_item.at(0)][sp_item.at(1)].find(i => i.id === sp_item.at(2)).title = $edittextbox.val().trim().replaceAll(' ', ' ');
                            else
                               att[sp_item.at(0)][sp_item.at(1)] = $edittextbox.val().trim().replaceAll(' ', ' ');
-
-                           console.log(att)
                            request('/lessons/' + b, 'patch', att)
                               .then(() => {
                                  if ($el[0].className === 'inputs__output') {
@@ -121,7 +121,7 @@ $.fn.extend({
                         })
                   } else if (sp_item.at(1) === 'uls') {
                      request('/lessons/' + b, 'get')
-                        .then(res => arrBlueText = res[sp_item.at(0)].uls[sp_item.at(-1)].blueEffects || [])
+                        .then(res => arrBlueText = res[sp_item.at(0)].uls.find(i => i.id === sp_item.at(-1)).blueEffects || [])
                         .then(() => {
                            let wrapperText = $el[0].innerText.toLocaleLowerCase().split(' ');
                            for (let text of arrBlueText) {
@@ -244,17 +244,15 @@ let obj,
    header__title_after = doc.querySelector('.header__title-after'),
    header__edit_after = doc.querySelector('.header__edit-after'),
    variats = doc.querySelectorAll('[data-variat]'),
-   checkBoxs = doc.querySelectorAll('.before__ul input'),
-   checkBoxs_ = doc.querySelectorAll('.after__ul input'),
+   checkBoxs = doc.querySelector('.before__ul'),
+   checkBoxs_ = doc.querySelector('.after__ul'),
    uls_edit = doc.querySelector('.uls-edit'),
    uls_edit_one = doc.querySelector('.uls-edit_one'),
    description__edit = doc.querySelector('.description__edit'),
-   des_uls = doc.querySelectorAll('.description__ul input');
-   function randomSet(arr) {
-      arr.forEach(el => {
-         el.nextElementSibling.nextElementSibling.dataset.itemid = Math.random();
-      })
-   }
+   des_uls = doc.querySelector('.description__ul'),
+   edit_tr = doc.querySelector('.uls-edit_two'),
+   edit_tr_after = doc.querySelector('.after__edit-uls'),
+   edit_tr_des = doc.querySelector('.des__edit-uls');
 const map = {
    "full": "Полное",
    'basic': "Базовый",
@@ -698,56 +696,85 @@ function update_variats(id) {
       reload_editable(header__title_before, header_box_bef, obj.id, 'before', "584px", 'blueEffects', 'before', 'pink', '.pink-pencil');
       reload_editable('.after__title', after_edit, obj.id, 'after', "384px", 'title_effect', 'after', 'green');
       reload_editable(header__title_after, header__edit_after, obj.id, 'after', "584px", 'blueEffects', 'after', 'green', '.green-pencil');
-
-      reload_uls(checkBoxs[0].parentNode.parentNode, obj.before.uls , 'before');
-      reload_uls(checkBoxs_[0].parentNode.parentNode, obj.after.uls, 'after');
-      reload_uls(des_uls[0].parentNode.parentNode, obj.aboutUs.uls , 'aboutUs');
-
-      let all = doc.querySelectorAll('input[type="radio"]');
-      all.forEach(el => {
-         let item = el.nextElementSibling.childNodes[0];
-         let div = doc.createElement('div');
-         div.classList.add('inner-circ');
-         item.append(div);
-      })
-      checkBoxs = doc.querySelectorAll('.before__ul input')
-      checkBoxs_ = doc.querySelectorAll('.after__ul input')
-      des_uls = doc.querySelectorAll('.description__ul input');
-
-      checkBoxs[0].checked = true;
-      checkBoxs_[0].checked = true;
-      des_uls[0].checked = true;
-      console.log(des_uls[0].nextElementSibling);
-
-      checkBoxs[0].nextElementSibling.childNodes[0].childNodes[0].style.opacity = '1'
-      checkBoxs_[0].nextElementSibling.childNodes[0].childNodes[0].style.opacity = '1'
-      des_uls[0].nextElementSibling.childNodes[0].childNodes[0].style.opacity = '1'
-      randomSet(checkBoxs);
-      randomSet(checkBoxs_);
-      randomSet(des_uls);
       let [span_edit, span_effect] = uls_edit.querySelectorAll('span');
       let [span_edit_one, span_effect_one] = uls_edit_one.querySelectorAll('span');
       let [span_des, spn_des_two] = description__edit.querySelectorAll('span');
-      blueclick(span_effect_one, Array.from(checkBoxs_), obj.after.uls, 'green', 'after', obj.id)
-      $(checkBoxs_[0].nextElementSibling.nextElementSibling).editable($(span_edit_one), obj.id, 'text', 'after', 'name', null, checkBoxs_)
-      blueclick(span_effect, Array.from(checkBoxs), obj.before.uls, 'pink', 'before', obj.id)
-      $(checkBoxs[0].nextElementSibling.nextElementSibling).editable($(span_edit), obj.id, 'text', 'before', 'name', null, checkBoxs)
-      blueclick(spn_des_two, Array.from(des_uls), obj.aboutUs.uls, 'green', 'aboutUs', obj.id)
-      $(des_uls[0].nextElementSibling.nextElementSibling).editable($(span_des), obj.id, 'text', 'aboutUs', 'name', null, des_uls)
-      function inputsWorm(arr, input) {
-         arr.forEach(el => {
-            el.onclick = () => {
-               let item = el.nextElementSibling.childNodes[0].childNodes[0];
-               console.log(item);
-               arr.forEach(i => i.nextElementSibling.childNodes[0].childNodes[0].style.opacity = '0');
-               setTimeout(() => {
-                  item.style.opacity = '1'
-                  input.dataset.progres = 'true';
-               }, 4);
+
+
+
+      const edit_reload = (edit, id, obj, setting) => {
+
+         let [sp_one, sp_two] = edit.querySelectorAll('span'),
+            { data, part, place, spn, color, editPencil, inputs } = setting;
+         blueclick(spn, inputs, obj[part][data], color, part, obj.id)
+         $(inputs[0].nextElementSibling.nextElementSibling).editable($(editPencil), obj.id, 'text', part, 'name', null, inputs)
+         sp_one.onclick = async () => {
+            await request('/lessons/' + obj.id, 'get')
+               .then(res => obj = res)
+            let item = {};
+            item.title = 'Измени меня!';
+            item.id = uuidv4();
+            obj[part][data].push(item);
+            let post = {};
+            post[part] = obj[part];
+            request('/lessons/' + id, 'patch', post)
+               .then(() => {
+                  let temp = reload_uls(place, obj[part][data], part, spn);
+                  blueclick(spn, temp, obj[part][data], color, part, obj.id)
+                  $(temp[0].nextElementSibling.nextElementSibling).editable($(editPencil), obj.id, 'text', part, 'name', null, temp)
+               })
+         }
+         sp_two.onclick = async () => {
+            await request('/lessons/' + obj.id, 'get')
+               .then(res => obj = res)
+            let items = place.querySelectorAll('input'),
+               isChecked = Array.from(items).find(inp => inp.checked === true).parentNode,
+               id = isChecked.dataset.elId,
+               next = isChecked.nextSibling !== null ? isChecked?.nextSibling?.firstChild : isChecked?.previousSibling?.firstChild;
+            if (items.length <= 1) {
+               alert("Вы не можете удалить последний элемент!");
+               return;
             }
-         })
+            if (!confirm('Хотите удалить выдранный пункт?!')) return;
+            let post = {};
+            post[data] = obj[part][data].filter(el => el.id !== id);
+            request(`/lessons/${lc.split('=').at(-1)}/${part}/`, 'patch', post)
+               .then(res => {
+                  if (res) {
+                     isChecked.remove();
+                     next.checked = true;
+                     next.nextSibling.childNodes[0].childNodes[0].style.opacity = '1'
+                  } else {
+                     alert('Что-то пошло не так!')
+                  }
+               })
+         }
       }
-      inputsWorm(checkBoxs, span_effect);
-      inputsWorm(checkBoxs_, span_effect_one);
-      inputsWorm(des_uls, spn_des_two);
+      edit_reload(edit_tr, obj.id, obj, {
+         place: checkBoxs,
+         part: 'before',
+         data: 'uls',
+         spn: span_effect,
+         color: 'pink',
+         editPencil: span_edit,
+         inputs: reload_uls(checkBoxs, obj.before.uls, 'before', span_effect)
+      });
+      edit_reload(edit_tr_after, obj.id, obj, {
+         place: checkBoxs_,
+         part: 'after',
+         data: 'uls',
+         spn: span_effect_one,
+         color: 'green',
+         editPencil: span_edit_one,
+         inputs: reload_uls(checkBoxs_, obj.after.uls, 'after', span_effect_one)
+      });
+      edit_reload(edit_tr_des, obj.id, obj, {
+         place: des_uls,
+         part: 'aboutUs',
+         data: 'uls',
+         spn: spn_des_two,
+         color: 'green',
+         editPencil: span_des,
+         inputs: reload_uls(des_uls, obj.aboutUs.uls, 'aboutUs', spn_des_two)
+      });
    })

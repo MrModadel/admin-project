@@ -43,6 +43,8 @@ export const useHttp = () => {
          } else if (method === "patch") {
             await update(ref(db, url), body)
                .then(() => {
+                  console.log('complete');
+                  
                   rt = body;
                })
          } else if (method === "delete") {
